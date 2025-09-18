@@ -1,18 +1,106 @@
 ﻿@page "/"
 
 <PageTitle>Home</PageTitle>
-
-<h1>Counter</h1>
-
-<p role="status">Current count: @_currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<div class="calculator-wrapper">
+    <div class="calculator">
+        <p class="result">@Calculate()</p>
+        <p class="input">@GetInput()</p>
+        <div class="buttons">
+            <div class="button-group">
+                @foreach (var digit in Enumerable.Range(1, 9))
+                {
+                    <button @onclick="@(() => AppendInput(digit.ToString()))">@digit</button>
+                }
+                <button disabled></button>
+                <button @onclick="@(() => AppendInput("0"))">0</button>
+                <button disabled></button>
+            </div>
+            <div class="button-group">
+                <button @onclick="@(() => AppendOperator(new AdditionOperator()))">+</button>
+                <button @onclick="@(() => AppendOperator(new SubtractionOperator()))">-</button>
+                <button @onclick="@(() => AppendOperator(new DivisionOperator()))">/</button>
+                <button @onclick="@(() => AppendOperator(new MultiplicationOperator()))">*</button>
+                <button @onclick="@(() => AppendOperator(new EqualsOperator()))">=</button>
+            </div>
+        </div>
+    </div>
+    <div class="history">
+        <h2>History</h2>
+        @foreach (var expression in expressions)
+        {
+            <p class='@expression.GetClassName()'>@expression.ToString()</p>
+        }
+    </div>
+    <div class="past"></div>
+</div>
 
 @code {
-    private int _currentCount = 0;
+    private List<string> input = new();
+    private List<Expression> expressions = new();
 
-    private void IncrementCount()
+    private void AppendInput(string next)
     {
-        _currentCount++;
+        input.Add(next);
+    }
+    
+    private void AppendOperator(Operator op)
+    {
+        if (input.Count <= 0)
+        {
+            expressions[^1] = op;
+            return;
+        }
+        expressions.Add
+        (
+            new IntegerOperand
+            {
+                value = Convert.ToInt32(string.Join("", input))
+            }
+        );
+        expressions.Add(op);
+        input.Clear();
+    }
+
+    private int Calculate()
+    {
+        Operator? currentOperator = null;
+        var sum = 0;
+        var first = true;
+        foreach (var expression in expressions)
+        {
+            if (first)
+            {
+                if (expression is not IntegerOperand integer) throw new Exception("no operand");
+                sum += integer.value;
+                first = false;
+                continue;
+            }
+
+            switch (expression)
+            {
+                case Operator op:
+                    currentOperator = op;
+                    break;
+                case Operand rand:
+                    sum = currentOperator switch
+                    {
+                        AdditionOperator => sum + (rand as IntegerOperand).value,
+                        SubtractionOperator => sum - (rand as IntegerOperand).value,
+                        MultiplicationOperator => sum * (rand as IntegerOperand).value,
+                        DivisionOperator => sum / (rand as IntegerOperand).value,
+                        EqualsOperator => sum,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    break;
+            }
+        }
+
+        return sum;
+    }
+
+    private string GetInput()
+    {
+        var newInput = string.Join("", input);
+        return newInput.Length < 1 ? "0" : newInput;
     }
 }
