@@ -56,11 +56,3 @@ public class MultiplicationOperator : Operator
         return "*";
     }
 }
-
-public class EqualsOperator : Operator
-{
-    public override string ToString()
-    {
-        return "=";
-    }
-}

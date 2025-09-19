@@ -1,0 +1,39 @@
+﻿@page "/calculator"
+
+<PageTitle>Calculator</PageTitle>
+<div class="calculator-wrapper">
+    <div class="calculator">
+        <p class="result">@calculator.Calculate()</p>
+        <p class="input">@calculator.GetInput()</p>
+        <div class="buttons">
+            <div class="button-group">
+                @foreach (var digit in Enumerable.Range(1, 9))
+                {
+                    <button @onclick="@(() => calculator.AppendInput(digit.ToString()))">@digit</button>
+                }
+                <button disabled></button>
+                <button @onclick="@(() => calculator.AppendInput("0"))">0</button>
+                <button disabled></button>
+            </div>
+            <div class="button-group">
+                <button @onclick="@(() => calculator.AppendOperator(new AdditionOperator()))">+</button>
+                <button @onclick="@(() => calculator.AppendOperator(new SubtractionOperator()))">-</button>
+                <button @onclick="@(() => calculator.AppendOperator(new DivisionOperator()))">/</button>
+                <button @onclick="@(() => calculator.AppendOperator(new MultiplicationOperator()))">*</button>
+                <button @onclick="@(calculator.Equals)">=</button>
+            </div>
+        </div>
+    </div>
+    <div class="history">
+        <h2>Current Calculation</h2>
+        @foreach (var expression in calculator.expressions)
+        {
+            <p class='@expression.GetClassName()'>@expression.ToString()</p>
+        }
+    </div>
+</div>
+
+@code {
+    private CommerceApp.Calculator calculator = new();
+    
+}

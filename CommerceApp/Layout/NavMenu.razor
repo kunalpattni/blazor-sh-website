@@ -1,2 +1,19 @@
-﻿@using Microsoft.AspNetCore.Components.Routing
-<NavLink class="nav-link" href="" Match="NavLinkMatch.All"></NavLink>
+﻿<div class="@className">
+    <button @onclick="@(ToggleNavMenu)">@iconString</button>
+    <NavLink class="@hidden" href="/" Match="NavLinkMatch.All">Home</NavLink>
+    <NavLink class="@hidden" href="/calculator" Match="NavLinkMatch.All">Calculator</NavLink>
+</div>
+
+@code
+{
+    private string hidden = "hidden";
+    private string className = "collapse";
+    private string iconString = "⇥";
+
+    private void ToggleNavMenu()
+    {
+        hidden = hidden == "" ? "hidden" : "";
+        className = className == "" ? "collapse" : "";
+        iconString = iconString == "⇤" ? "⇥" : "⇤";
+    }
+}
