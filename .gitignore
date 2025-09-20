@@ -347,5 +347,4 @@ healthchecksdb
 /.sonarqube
 /SendAnalysisSonarQube.bat
 
-# Avoid accidental commit of example component
-frontend/src/CrystalCorporate/Pages/Shared/Components/ExampleComponent/
+.firebase/
