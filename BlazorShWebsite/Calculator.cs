@@ -1,4 +1,4 @@
-namespace CommerceApp;
+namespace BlazorShWebsite;
 
 public class Calculator
 {

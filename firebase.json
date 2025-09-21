@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "CommerceApp/bin/Release/net8.0/publish/wwwroot",
+    "public": "BlazorShWebsite/bin/Release/net8.0/publish/wwwroot",
     "ignore": [
       "firebase.json",
       "**/.*"
