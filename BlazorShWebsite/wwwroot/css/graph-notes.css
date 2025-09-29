@@ -1,3 +1,13 @@
 .current-graph {
     width: 100%;
+    position: relative;
+}
+
+.node {
+    width: 100px;
+    height: 100px;
+    background: red;
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid black;
 }

@@ -5,7 +5,7 @@
     <div class="current-graph">
         @foreach (var node in graphNotes.Graph.Nodes)
         {
-            <div class="node">@node.GetPropertyOrEmptyString("name")</div>
+            <div class="node" style="top: @(node.View.Y)px; left: @(node.View.X)px">@node.GetPropertyOrEmptyString("name")</div>
         }
         <div class="floating-menu">
             <button @onclick="@(() => graphNotes.AddNode())">✚</button>
