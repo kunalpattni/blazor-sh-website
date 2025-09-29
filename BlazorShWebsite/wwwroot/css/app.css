@@ -2,6 +2,20 @@
     font-family: sans-serif;
 }
 
+:root {
+    --sidebar-background-default: #B7094C;
+    --sidebar-text-default: white;
+    --sidebar-button-toggle-icon-hover-default: #5E548E;
+    --sidebar-button-link-hover-default: #892B64;
+    --sidebar-button-link-active-default: #A01A58;
+    
+    --sidebar-background-alternate: #3A4454;
+    --sidebar-text-alternate: white;
+    --sidebar-button-toggle-icon-hover-alternate: #53687E;
+    --sidebar-button-link-hover-alternate: #53687E;
+    --sidebar-button-link-active-alternate: #63768A;
+}
+
 #app {
     height: 100%;
     display: flex;
@@ -9,21 +23,40 @@
 }
 
 .sidebar {
-    background: #B7094C;
-
-
+    background: var(--sidebar-background-default);
+    
     div {
         width: 200px;
-        transition: 0.2s;
+        transition: opacity 0.2s, width 0.2s;
         height: 100%;
-        color: white;
+        color: var(--sidebar-text-default);
+        
+        div.hidden {
+            opacity: 0;
+            height: auto;
+            width: 70px;
+            transition: opacity 0.2s, width 0.2s;
+            
+            a {
+                pointer-events: none;
+            }
+        }
+        
+        div {
+            overflow: hidden;
+            height: auto;
+            
+            a {
+                pointer-events: auto;
+            }
+        }
     }
 
     div.collapse {
         width: 70px;
     }
 
-    button {
+    button.toggle-icon {
         width: 70px;
         height: 70px;
         text-align: center;
@@ -33,8 +66,8 @@
         font-size: 2.2em;
     }
 
-    button:hover {
-        background: #5E548E;
+    button.toggle-icon:hover {
+        background: var(--sidebar-button-toggle-icon-hover-default);
     }
 
     a {
@@ -46,21 +79,40 @@
     }
 
     a:hover {
-        background: #892B64;
-    }
-
-    a.hidden {
-        opacity: 0;
-    }
-
-    a.hidden:hover {
-        background: transparent;
+        background: var(--sidebar-button-link-hover-default);
     }
 
     a.active {
-        background: #A01A58;
+        background: var(--sidebar-button-link-active-default);
+    }
+}
+
+.sidebar.alternate {
+    background: var(--sidebar-background-alternate);
+
+    div {
+        color: var(--sidebar-text-alternate);
     }
 
+    button.toggle-icon:hover {
+        background: var(--sidebar-button-toggle-icon-hover-alternate);
+    }
+
+    a:hover {
+        background: var(--sidebar-button-link-hover-alternate);
+    }
+
+    a.active {
+        background: var(--sidebar-button-link-active-alternate);
+    }
+}
+
+.sidebar.mirror {
+    button.toggle-icon {
+        justify-self: start;
+        direction: rtl;
+
+    }
 }
 
 
@@ -69,81 +121,11 @@ main {
     width: 100%;
 }
 
-.calculator-wrapper {
+.page-wrapper {
     height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: end;
-}
-
-.calculator {
-    margin: 5px auto auto auto;
-    padding: 10px;
-    background: #1780A1;
-    border-radius: 4px;
-    width: 488px;
-}
-
-p.result {
-    padding:  10px;
-    text-align: right;
-    border: 1px solid black;
-    border-radius: 4px;
-    background: white;
-}
-
-p.input {
-    padding: 10px;
-    text-align: right;
-    border: 1px solid black;
-    border-radius: 4px;
-    margin-top: 5px;
-    background: white;
-}
-
-.buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-    padding-top: 10px;
-}
-
-.button-group {
-    display: grid;
-    grid-template-columns: repeat(3,70px);
-    grid-template-rows: repeat(4, 70px);
-    text-align: center;
-    justify-content: center;
-    align-content: center;
-    gap: 4px;
-}
-
-.button-group button {
-    border: 1px solid;
-    border-radius: 4px;
-    background: white;
-}
-
-.button-group button:disabled {
-    border: 0;
-    background: 0;
-}
-
-.history {
-    width: 200px;
-    background: #455E89;
-    padding: 20px 20px;
-    color: white;
-}
-
-.past {
-    width: 200px;
-    background: #2E6F95;
-    padding: 20px 20px;
-}
-
-p.operand {
-    margin: 0 0 0 10px;
 }
 
 .home-wrapper {

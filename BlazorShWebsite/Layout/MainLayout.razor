@@ -1,6 +1,10 @@
 ﻿@inherits LayoutComponentBase
 <nav class="sidebar">
-    <NavMenu/>
+    <NavMenu>
+        <NavLink href="/" Match="NavLinkMatch.All">Home</NavLink>
+        <NavLink href="/calculator" Match="NavLinkMatch.All">Calculator</NavLink>
+        <NavLink href="/graph-notes" Match="NavLinkMatch.All">Graph Notes</NavLink>
+    </NavMenu>
 </nav>
 
 <main>

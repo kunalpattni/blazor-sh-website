@@ -1,14 +1,32 @@
 ﻿<div class="@className">
-    <button @onclick="@(ToggleNavMenu)">@iconString</button>
-    <NavLink class="@hidden" href="/" Match="NavLinkMatch.All">Home</NavLink>
-    <NavLink class="@hidden" href="/calculator" Match="NavLinkMatch.All">Calculator</NavLink>
+    <button class="toggle-icon" @onclick="@(ToggleNavMenu)">@iconString</button>
+    <div class="@hidden">
+        @ChildContent
+    </div>
 </div>
 
 @code
 {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool? Mirror { get; set; }
+
     private string hidden = "hidden";
     private string className = "collapse";
-    private string iconString = "⇥";
+    private string iconString;
+    
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        if (parameters.TryGetValue<bool>(nameof(Mirror), out var value))
+        {
+            iconString = value ? "⇤" : "⇥";
+        }
+        else
+        {
+            iconString = "⇥";
+        }
+
+        await base.SetParametersAsync(parameters);
+    }
 
     private void ToggleNavMenu()
     {

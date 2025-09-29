@@ -1,7 +1,7 @@
 ﻿@page "/calculator"
 
 <PageTitle>Calculator</PageTitle>
-<div class="calculator-wrapper">
+<div class="page-wrapper">
     <div class="calculator">
         <p class="result">@calculator.Calculate()</p>
         <p class="input">@calculator.GetInput()</p>
@@ -32,6 +32,10 @@
         }
     </div>
 </div>
+
+<HeadContent>
+    <link rel="stylesheet" href="css/calculator.css" />
+</HeadContent>
 
 @code {
     private BlazorShWebsite.Calculator calculator = new();

@@ -1,0 +1,28 @@
+﻿@page "/graph-notes"
+
+<PageTitle>Graph Notes</PageTitle>
+<div class="page-wrapper">
+    <div class="current-graph">
+        @foreach (var node in graphNotes.Graph.Nodes)
+        {
+            <div class="node">@node.GetPropertyOrEmptyString("name")</div>
+        }
+        <div class="floating-menu">
+            <button @onclick="@(() => graphNotes.AddNode())">✚</button>
+        </div>
+    </div>
+    <nav class="graph-list sidebar alternate mirror">
+        <NavMenu Mirror="true">
+            <button>First</button>
+            <button>Second</button>
+        </NavMenu>
+    </nav>
+</div>
+
+<HeadContent>
+    <link rel="stylesheet" href="css/graph-notes.css" />
+</HeadContent>
+
+@code {
+    private BlazorShWebsite.GraphNotes graphNotes = new();
+}
