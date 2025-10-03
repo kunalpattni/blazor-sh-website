@@ -134,3 +134,41 @@ main {
     align-content: center;
     justify-items: center;
 }
+
+.stats {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 14px;
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    button {
+        display: inline-block;
+        padding: 10px 5px;
+        border:  1px solid black;
+        width: 90px;
+        height: 20px;
+        text-align: center;
+        margin: 0 5px;
+    }
+    
+    button:hover {
+        background: aliceblue;
+    }
+
+    button:first-of-type {
+        margin-left: 0;
+    }
+}
+
+.ball {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #0ff, #08f);
+    box-shadow: 0 0 10px rgba(0,255,255,0.6);
+}

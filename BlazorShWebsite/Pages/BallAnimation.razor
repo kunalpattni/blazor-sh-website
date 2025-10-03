@@ -1,0 +1,187 @@
+@page "/ball-animation"
+@using System.Diagnostics
+
+<div class="page-wrapper" id="@_containerElementId" style="position: relative;">
+    <div class="stats">
+        <p>Balls: @_balls.Count | FPS: @_fps</p>
+        <button @onclick="RemoveBall">Remove Ball</button>
+        <button @onclick="AddBall">Add Ball</button>
+        <button @onclick="Pause">Pause</button>
+        <button @onclick="Start">Play</button>
+    </div>
+
+    @foreach (var b in _balls)
+    {
+        <div class="ball" style="left:@(b.X)px; top:@(b.Y)px;"></div>
+    }
+</div>
+
+@code {
+    private record Ball(double X, double Y, double Vx, double Vy)
+    {
+        public double X = X;
+        public double Y = Y;
+        public double Vx = Vx;
+        public double Vy = Vy;
+    }
+
+    private readonly List<Ball> _balls = [];
+    private const double BallSize = 20;
+
+    private int _fps;
+    private bool _pauseRequested;
+    private readonly string _containerElementId = "balls-container";
+    private double _screenHeight = 600;
+    private double _screenWidth = 800;
+    private readonly Stopwatch _stopwatch = new();
+    private readonly Random _rand = new();
+    private readonly NotifiableBool _isPaused = new(true);
+    private readonly Queue<int> _frames = new();
+
+    protected override void OnInitialized()
+    {
+        var count = 10;
+
+        for (int i = 0; i < count; i++)
+        {
+            _balls.Add(new Ball(
+                _rand.NextDouble() * (_screenWidth - BallSize),
+                _rand.NextDouble() * (_screenHeight - BallSize),
+                _rand.NextDouble() * 10,
+                _rand.NextDouble() * 10
+            ));
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Start();
+        }
+    }
+
+    private async Task AnimationLoop()
+    {
+        while (!_pauseRequested)
+        {
+            _stopwatch.Start();
+            _screenWidth = await GetContainerWidthAsync();
+            _screenHeight = await GetContainerHeightAsync();
+            Update();
+            StateHasChanged();
+            var elapsed = Convert.ToInt32(_stopwatch.ElapsedMilliseconds);
+            var millisToWait = 16 - elapsed;
+            _frames.Enqueue(elapsed);
+            if (_frames.Count > 100)
+            {
+                _frames.Dequeue();
+            }
+            if (millisToWait > 0)
+            {
+                _fps = 1000 / 16;
+                await Task.Delay(millisToWait);
+            }
+            else
+            {
+                _fps = 1000 / (16 + (int)_frames.Average());
+                await Task.Yield();
+            }
+
+            _stopwatch.Restart();
+        }
+
+        _isPaused.Value = true;
+    }
+
+    private void Update()
+    {
+        foreach (var b in _balls)
+        {
+            b.X += b.Vx;
+            b.Y += b.Vy;
+
+            // bounce X
+            if (b.X < 0)
+            {
+                b.X = 0;
+                b.Vx = Math.Abs(b.Vx);
+            }
+            else if (b.X + BallSize > _screenWidth)
+            {
+                b.X = _screenWidth - BallSize;
+                b.Vx = -Math.Abs(b.Vx);
+            }
+
+            // bounce Y
+            if (b.Y < 0)
+            {
+                b.Y = 0;
+                b.Vy = Math.Abs(b.Vy);
+            }
+            else if (b.Y + BallSize > _screenHeight)
+            {
+                b.Y = _screenHeight - BallSize;
+                b.Vy = -Math.Abs(b.Vy);
+            }
+        }
+    }
+
+    private async Task AddBall()
+    {
+        var didPause = await Pause();
+        _balls.Add(new Ball(
+            _rand.NextDouble() * (_screenWidth - BallSize),
+            _rand.NextDouble() * (_screenHeight - BallSize),
+            _rand.NextDouble() * 10,
+            _rand.NextDouble() * 10
+        ));
+        if (didPause)
+        {
+            await Start();
+        }
+    }
+    
+    private async Task RemoveBall()
+    {
+        if (_balls.Count > 0)
+        {
+            var didPause = await Pause();
+            _balls.RemoveAt(_balls.Count - 1);
+            if (didPause)
+            {
+                await Start();
+            }
+        }
+    }
+
+    private async Task Start()
+    {
+        if (_isPaused.Value)
+        {
+            _isPaused.Value = false;
+            _pauseRequested = false;
+            await AnimationLoop();
+        }
+    }
+    
+    private async Task<bool> Pause()
+    {
+        if (!_isPaused.Value)
+        {
+            _pauseRequested = true;
+            await _isPaused.WaitForAnyChangeAsync();
+            return true;
+        }
+
+        return false;
+    }
+    
+    [Inject] IJSRuntime Js { get; set; } = null!;
+
+    private async Task<double> GetContainerWidthAsync()
+        => await Js.InvokeAsync<double>("eval", $"document.getElementById('{_containerElementId}').clientWidth");
+
+    private async Task<double> GetContainerHeightAsync()
+        => await Js.InvokeAsync<double>("eval", $"document.getElementById('{_containerElementId}').clientHeight");
+}
