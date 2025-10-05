@@ -1,0 +1,39 @@
+/*
+My own reset css to simply solve problems I encounter
+ */
+
+*, *:before, *:after{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    display: flex;
+}
+
+a, a:hover, a:active, a:visited {
+    all: unset;
+    cursor: pointer;
+    display: block;
+}
+
+img {
+    display: block;
+    object-fit: contain;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+    display: block;
+}
+
+button:disabled {
+    cursor: auto;
+}

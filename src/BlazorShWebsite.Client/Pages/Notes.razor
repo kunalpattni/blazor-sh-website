@@ -1,0 +1,41 @@
+﻿@page "/notes"
+@using BlazorShWebsite.Shared.Notes
+@using BlazorShWebsite.Shared.Shared
+@using Microsoft.AspNetCore.SignalR.Client
+@inject HubManager HubManager
+<PageTitle>Notes</PageTitle>
+<div class="home-wrapper">
+    <h1>Notes</h1>
+    <p>State: @HubManager.HubConnection.State.ToString()</p>
+    <p>Is Interactive: @RendererInfo.IsInteractive</p>
+    <p>Platform Name: @RendererInfo.Name</p>
+    <p>AssignedRenderMode: @AssignedRenderMode.ToString()</p>
+
+    @{
+        List<string> notes = new();
+    }
+    @foreach (var note in notes)
+    {
+        <p>@note</p>
+    }
+    <textarea @bind="_model.Input"></textarea>
+    <button @onclick="Send">@(RendererInfo.IsInteractive ? "Send" : "Wait")</button>
+    <p>@(OperatingSystem.IsBrowser() ? "Browser" : "Server")</p>
+</div>
+
+@code {
+    private Model _model = new();
+    
+    public bool IsConnected => HubManager?.HubConnection.State == HubConnectionState.Connected;
+
+    private async Task Send()
+    {
+        await HubManager.Send(_model);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await HubManager.DisposeAsync();
+    }
+
+}
