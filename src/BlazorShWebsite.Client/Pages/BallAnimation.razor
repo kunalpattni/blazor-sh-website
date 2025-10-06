@@ -1,8 +1,9 @@
 @page "/ball-animation"
 @using System.Diagnostics
+@using BlazorShWebsite.Client.Js
 @using BlazorShWebsite.Shared.Shared
 @inject ILogger<BallAnimation> Logger
-@inject IJSRuntime Js
+@inject Element Element
 @implements IAsyncDisposable
 
 <PageTitle>Ball Animation</PageTitle>
@@ -79,8 +80,8 @@
         while (!_pauseRequested)
         {
             _stopwatch.Start();
-            _screenWidth = await GetContainerWidthAsync();
-            _screenHeight = await GetContainerHeightAsync();
+            _screenWidth = await Element.ClientWidth(_containerElementId);
+            _screenHeight = await Element.ClientHeight(_containerElementId);
             Update();
             StateHasChanged();
             var elapsed = Convert.ToInt32(_stopwatch.ElapsedMilliseconds);
@@ -188,59 +189,5 @@
         }
 
         return false;
-    }
-    
-    private async Task<double> GetContainerWidthAsync()
-    {
-        if (Js is null)
-        {
-            return 0;
-        }
-        
-        try
-        {
-            return await Js.InvokeAsync<double>("eval", $"document.getElementById('{_containerElementId}').clientWidth");
-        }
-        catch (JSDisconnectedException ex)
-        {
-            Logger.LogError(ex, "JSDisconnectedException: Failed to read clientWidth");
-        }
-        catch (TaskCanceledException ex)
-        {
-            Logger.LogError(ex, "TaskCanceledException: Failed to read clientWidth");
-        }
-        catch (JSException ex)
-        {
-            Logger.LogError(ex, "JSException: Failed to read clientWidth");
-        }
-
-        return 0;
-    }
-
-    private async Task<double> GetContainerHeightAsync()
-    {
-        if (Js is null)
-        {
-            return 0;
-        }
-        
-        try
-        {
-            return await Js.InvokeAsync<double>("eval", $"document.getElementById('{_containerElementId}').clientHeight");
-        }
-        catch (JSDisconnectedException ex)
-        {
-            Logger.LogError(ex, "JSDisconnectedException: Failed to read clientHeight");
-        }
-        catch (TaskCanceledException ex)
-        {
-            Logger.LogError(ex, "TaskCanceledException: Failed to read clientHeight");
-        }
-        catch (JSException ex)
-        {
-            Logger.LogError(ex, "JSException: Failed to read clientHeight");
-        }
-
-        return 0;
     }
 }

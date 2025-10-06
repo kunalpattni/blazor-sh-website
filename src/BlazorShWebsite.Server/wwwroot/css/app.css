@@ -134,6 +134,13 @@ main {
     justify-items: center;
 }
 
+.local-storage-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
 .stats {
     position: absolute;
     top: 10px;
@@ -170,4 +177,65 @@ main {
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, #0ff, #08f);
     box-shadow: 0 0 10px rgba(0,255,255,0.6);
+}
+
+.controls, .results {
+    align-content: center;
+    width: 50%;
+    padding: 0 40px;
+}
+
+.controls > div {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 40px;
+    justify-content: end;
+    flex-wrap: wrap;
+}
+
+.controls > div > div {
+    display: flex;
+    gap: 10px;
+}
+
+.controls label {
+    align-content: center;
+    margin-left: 20px;
+}
+
+.controls textarea {
+    min-width: 147px;
+    font-size: 1em;
+    align-content: center;
+    padding-left: 10px;
+}
+
+.controls button {
+    display: inline-block;
+    border:  1px solid black;
+    border-radius: 3px;
+    padding: 10px 10px 8px 10px;
+    min-width: 100%;
+    text-align: center;
+    background: darkorange;
+}
+
+.results p {
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 850px) {
+    .local-storage-wrapper {
+        flex-direction: column;
+        justify-content: start;
+        padding-top: 40px;
+    }
+
+    .controls, .results {
+        align-content: center;
+        width: auto;
+        justify-content: start;
+        padding: 0 40px;
+    }
 }

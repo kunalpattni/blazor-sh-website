@@ -1,0 +1,86 @@
+﻿@page "/local-storage"
+@using BlazorShWebsite.Client.Js
+@inject LocalStorage LocalStorage
+
+<PageTitle>Notes</PageTitle>
+<div class="local-storage-wrapper">
+    <div class="controls">
+        <div>
+            <div>
+                <label for="add-key">Key</label>
+                <textarea id="add-key" @bind="_addKey"></textarea>
+            </div>
+            <div>
+                <label for="add-value">Value</label>
+                <textarea id="add-value" @bind="_addValue"></textarea>
+            </div>
+            <button @onclick="Add">Add</button>
+        </div>
+        <div>
+            <div>
+                <label for="remove-key">Key</label>
+                <textarea id="remove-key" @bind="_removeKey"></textarea>
+            </div>
+            <button @onclick="Remove">Remove</button>
+        </div>
+        <div>
+            <button @onclick="Clear">Clear</button>
+        </div>
+
+    </div>
+    
+    <div class="results">
+    @if (RendererInfo.IsInteractive) {
+        @foreach (var item in _items)
+        {
+            <p><span>@item.Key</span>: <span>@item.Value</span></p>
+        }
+    }
+    </div>
+</div>
+
+@code {
+    private string _addKey;
+    private string _addValue;
+    private string _removeKey;
+    private SortedDictionary<string, string> _items = new();
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Items();
+            await Task.Yield();
+            StateHasChanged();
+        }
+    }
+    
+    public async Task Add()
+    {
+        await LocalStorage.SetItem(_addKey, _addValue);
+        await Items();
+    }
+
+    public async Task Items()
+    {
+        _items = new();
+        for (var i = 0; i < await LocalStorage.Length(); i++)
+        {
+            var key = await LocalStorage.Key(i);
+            var value = await LocalStorage.GetItem(key!);
+            _items[key!] = value!;
+        }
+    } 
+    
+    public async Task Remove()
+    {
+        await LocalStorage.RemoveItem(_removeKey);
+        await Items();
+    }
+    
+    public async Task Clear()
+    {
+        await LocalStorage.Clear();
+        await Items();
+    }
+}

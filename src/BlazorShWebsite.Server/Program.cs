@@ -1,3 +1,4 @@
+using BlazorShWebsite.Client.Js;
 using BlazorShWebsite.Server.Components;
 using Notes = BlazorShWebsite.Notes;
 using SharedNotes = BlazorShWebsite.Shared.Notes;
@@ -13,6 +14,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddSignalR();
 
 builder.Services.AddScoped<HubManager>();
+builder.Services.AddJsInterop();
 
 var app = builder.Build();
 
