@@ -18,6 +18,8 @@ builder.Services.AddJsInterop();
 
 var app = builder.Build();
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
