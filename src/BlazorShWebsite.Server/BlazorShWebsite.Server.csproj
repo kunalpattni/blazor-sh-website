@@ -4,13 +4,15 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>BlazorShWebsite</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\BlazorShWebsite.Client\BlazorShWebsite.Client.csproj"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.17"/>
-        <ProjectReference Include="..\BlazorShWebsite.Shared\BlazorWebsite.Shared.csproj" />
+        <ProjectReference Include="..\BlazorShWebsite.Shared\BlazorShWebsite.Shared.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.9" />
     </ItemGroup>
 
     <ItemGroup>

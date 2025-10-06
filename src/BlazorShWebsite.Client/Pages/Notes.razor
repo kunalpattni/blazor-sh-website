@@ -3,10 +3,12 @@
 @using BlazorShWebsite.Shared.Shared
 @using Microsoft.AspNetCore.SignalR.Client
 @inject HubManager HubManager
+@implements IAsyncDisposable
+
 <PageTitle>Notes</PageTitle>
 <div class="home-wrapper">
     <h1>Notes</h1>
-    <p>State: @HubManager.HubConnection.State.ToString()</p>
+    <p>State: @HubManager.State.ToString()</p>
     <p>Is Interactive: @RendererInfo.IsInteractive</p>
     <p>Platform Name: @RendererInfo.Name</p>
     <p>AssignedRenderMode: @AssignedRenderMode.ToString()</p>
@@ -26,7 +28,7 @@
 @code {
     private Model _model = new();
     
-    public bool IsConnected => HubManager?.HubConnection.State == HubConnectionState.Connected;
+    public bool IsConnected => HubManager?.State == HubConnectionState.Connected;
 
     private async Task Send()
     {
@@ -36,6 +38,7 @@
     public async ValueTask DisposeAsync()
     {
         await HubManager.DisposeAsync();
+        await Task.CompletedTask;
     }
 
 }

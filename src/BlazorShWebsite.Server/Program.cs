@@ -1,4 +1,4 @@
-using BlazorShWebsite.Components;
+using BlazorShWebsite.Server.Components;
 using Notes = BlazorShWebsite.Notes;
 using SharedNotes = BlazorShWebsite.Shared.Notes;
 using BlazorShWebsite.Shared.Shared;
