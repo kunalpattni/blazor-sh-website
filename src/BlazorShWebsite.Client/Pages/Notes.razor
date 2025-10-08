@@ -1,4 +1,5 @@
 ﻿@page "/notes"
+@using BlazorShWebsite.Client.Components
 @using BlazorShWebsite.Client.Js
 @using BlazorShWebsite.Shared.Notes
 @using BlazorShWebsite.Shared.Shared
@@ -7,7 +8,8 @@
 @inject LocalStorage LocalStorage
 @implements IAsyncDisposable
 
-<PageTitle>Notes</PageTitle>
+<SuffixedPageTitle Title="Local Storage" />
+
 <div class="home-wrapper">
     <h1>Notes</h1>
     <p>State: @HubManager.State.ToString()</p>
@@ -40,6 +42,10 @@
     <textarea @bind="_model.Input"></textarea>
     <button @onclick="Send">@(RendererInfo.IsInteractive ? "Send" : "Wait")</button>
 </div>
+
+<HeadContent>
+    <meta name="description" content="unknown">
+</HeadContent>
 
 @code {
     private Model _model = new();

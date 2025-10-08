@@ -1,6 +1,8 @@
 ﻿@page "/"
+@using BlazorShWebsite.Client.Components
 
-<PageTitle>Home</PageTitle>
+<SuffixedPageTitle Title="Home" />
+
 <div class="home-wrapper">
     <h1>Just Blazor things</h1>
     <summary>
@@ -21,4 +23,6 @@
 
 <HeadContent>
     <link rel="stylesheet" href="css/home.css" />
+    <meta name="description" content="Web assembly blazor examples built using C# on .NET">
+    <GoogleWebsiteStructuredData/>
 </HeadContent>

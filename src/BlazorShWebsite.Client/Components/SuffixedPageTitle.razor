@@ -1,0 +1,9 @@
+<PageTitle>@TitleSuffixed</PageTitle>
+
+@code {
+    [Parameter] public string? Title { get; set; }
+
+    private string TitleSuffixed => string.IsNullOrWhiteSpace(Title)
+        ? "Blazor.sh"
+        : $"{Title} | Blazor.sh";
+}

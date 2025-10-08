@@ -1,7 +1,9 @@
 ﻿@page "/calculator"
 @using BlazorShWebsite.Client.Calculator
+@using BlazorShWebsite.Client.Components
 
-<PageTitle>Calculator</PageTitle>
+<SuffixedPageTitle Title="Calculator" />
+
 <div class="page-wrapper">
     <div class="calculator">
         <p class="result">@calculator.Calculate()</p>
@@ -36,6 +38,7 @@
 
 <HeadContent>
     <link rel="stylesheet" href="css/calculator.css" />
+    <meta name="description" content="A simple calculator written only in C# using blazor wasm">
 </HeadContent>
 
 @code {

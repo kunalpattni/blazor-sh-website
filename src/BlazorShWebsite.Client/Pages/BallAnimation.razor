@@ -1,12 +1,14 @@
 @page "/ball-animation"
 @using System.Diagnostics
+@using BlazorShWebsite.Client.Components
 @using BlazorShWebsite.Client.Js
 @using BlazorShWebsite.Shared.Shared
 @inject ILogger<BallAnimation> Logger
 @inject Element Element
 @implements IAsyncDisposable
 
-<PageTitle>Ball Animation</PageTitle>
+<SuffixedPageTitle Title="Ball Animation" />
+
 <div class="page-wrapper" id="@_containerElementId" style="position: relative;">
     <div class="stats">
         <p>Balls: @_balls.Count | FPS: @_fps</p>
@@ -21,6 +23,10 @@
         <div class="ball" style="left:@(b.X)px; top:@(b.Y)px;"></div>
     }
 </div>
+
+<HeadContent>
+    <meta name="description" content="Animating multiple balls written only in C# using blazor wasm">
+</HeadContent>
 
 @code {
     private record Ball(double X, double Y, double Vx, double Vy)

@@ -1,8 +1,10 @@
 ﻿@page "/local-storage"
+@using BlazorShWebsite.Client.Components
 @using BlazorShWebsite.Client.Js
 @inject LocalStorage LocalStorage
 
-<PageTitle>Local Storage</PageTitle>
+<SuffixedPageTitle Title="Local Storage" />
+
 <div class="local-storage-wrapper">
     <div class="controls">
         <div>
@@ -30,14 +32,18 @@
     </div>
     
     <div class="results">
-    @if (RendererInfo.IsInteractive) {
-        @foreach (var item in _items)
-        {
-            <p><span>@item.Key</span>: <span>@item.Value</span></p>
+        @if (RendererInfo.IsInteractive) {
+            @foreach (var item in _items)
+            {
+                <p><span>@item.Key</span>: <span>@item.Value</span></p>
+            }
         }
-    }
     </div>
 </div>
+
+<HeadContent>
+    <meta name="description" content="Reading from and writing to LocalStorage written in C# using blazor wasm with JSInterop">
+</HeadContent>
 
 @code {
     private string _addKey;

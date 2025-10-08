@@ -1,12 +1,12 @@
 using BlazorShWebsite.Client.Js;
 using BlazorShWebsite.Server.Components;
+using BlazorShWebsite.Server.Services;
 using Notes = BlazorShWebsite.Notes;
 using SharedNotes = BlazorShWebsite.Shared.Notes;
 using BlazorShWebsite.Shared.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
@@ -20,17 +20,18 @@ var app = builder.Build();
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
 }
 else
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler("/error", createScopeForErrors: true);
+
     app.UseHsts();
 }
+
+app.UseStatusCodePagesWithReExecute("/error", "?statusCode={0}");
 
 app.UseHttpsRedirection();
 
@@ -41,6 +42,8 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(BlazorShWebsite.Client._Imports).Assembly);
+
+app.MapGet("/sitemap.xml", Sitemap.Generate);
 
 app.MapHub<Notes.Hub>(SharedNotes.Constants.PartialHubPath.ToHubUrl());
 

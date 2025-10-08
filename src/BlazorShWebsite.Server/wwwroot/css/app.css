@@ -21,6 +21,15 @@ body {
     flex-direction: row;
 }
 
+a.inline, a.inline:visited {
+    color: var(--sidebar-button-link-hover-default);
+    display: inline-block;
+}
+
+a.inline:hover, a.inline:active {
+    color: var(--sidebar-button-link-active-alternate);
+}
+
 .sidebar {
     background: var(--sidebar-background-default);
     
@@ -123,6 +132,12 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: end;
+}
+
+.error-wrapper {
+    height: 100%;
+    align-content: center;
+    text-align: center;
 }
 
 .home-wrapper {

@@ -15,15 +15,6 @@ p:last-child {
     margin-bottom: 0;
 }
 
-a.inline, a.inline:visited {
-    color: var(--sidebar-button-link-hover-default);
-    display: inline-block;
-}
-
-a.inline:hover, a.inline:active {
-    color: var(--sidebar-button-link-active-alternate);
-}
-
 footer {
     width: 100%;
     text-align: center;
