@@ -2,48 +2,50 @@ using Microsoft.JSInterop;
 
 namespace BlazorShWebsite.Client.Js;
 
-public class LocalStorage(IJSRuntime? js)
+public class LocalStorage(IJSRuntime? js) : JsApi(js)
 {
+    private readonly IJSRuntime? _js = js;
+
     public async Task<int> Length()
     {
         EnsureIJSRuntimeExists();
         
-        return await js!.InvokeAsync<int>("eval", "localStorage.length");
+        return await _js!.InvokeAsync<int>("eval", "localStorage.length");
     }
     
     public async Task<string?> Key(int index)
     {
         EnsureIJSRuntimeExists();
         
-        return await js!.InvokeAsync<string?>("eval", $"localStorage.key({index})");
+        return await _js!.InvokeAsync<string?>("eval", $"localStorage.key({index})");
     }
     
     public async Task<string?> GetItem(string key)
     {
         EnsureIJSRuntimeExists();
         
-        return await js!.InvokeAsync<string?>("eval", $"localStorage.getItem('{key}')");
+        return await _js!.InvokeAsync<string?>("eval", $"localStorage.getItem('{key}')");
     }
     
     public async Task SetItem(string key, string value)
     {
         EnsureIJSRuntimeExists();
         
-        await js!.InvokeVoidAsync("eval", $"localStorage.setItem('{key}', '{value}')");
+        await _js!.InvokeVoidAsync("eval", $"localStorage.setItem('{key}', '{value}')");
     }
     
     public async Task RemoveItem(string key)
     {
         EnsureIJSRuntimeExists();
         
-        await js!.InvokeVoidAsync("eval", $"localStorage.removeItem('{key}')");
+        await _js!.InvokeVoidAsync("eval", $"localStorage.removeItem('{key}')");
     }
     
     public async Task Clear()
     {
         EnsureIJSRuntimeExists();
         
-        await js!.InvokeVoidAsync("eval", "localStorage.clear()");
+        await _js!.InvokeVoidAsync("eval", "localStorage.clear()");
     }
 
     //     Storage.getItem()
@@ -58,11 +60,5 @@ public class LocalStorage(IJSRuntime? js)
     //     Storage.clear()
     // When invoked, will empty all keys out of the storage.
 
-    public void EnsureIJSRuntimeExists()
-    {
-        if (js is null)
-        {
-            throw new JSException("IJSRuntime does not exist");
-        }
-    }
+    
 }

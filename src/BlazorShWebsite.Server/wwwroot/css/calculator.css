@@ -46,6 +46,10 @@ p.input {
     background: white;
 }
 
+.button-group button:hover:not(:disabled) {
+    background: #00b6ef;
+}
+
 .button-group button:disabled {
     border: 0;
     background: 0;
@@ -56,6 +60,10 @@ p.input {
     background: #455E89;
     padding: 20px 20px;
     color: white;
+
+    h2 {
+        margin-bottom: 20px;
+    }
 }
 
 .past {

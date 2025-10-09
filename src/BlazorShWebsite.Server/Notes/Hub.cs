@@ -1,6 +1,6 @@
 using BlazorShWebsite.Shared.Notes;
 
-namespace BlazorShWebsite.Notes;
+namespace BlazorShWebsite.Server.Notes;
 
 public class Hub : Microsoft.AspNetCore.SignalR.Hub
 {

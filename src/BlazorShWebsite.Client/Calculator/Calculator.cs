@@ -2,68 +2,69 @@ namespace BlazorShWebsite.Client.Calculator;
 
 public class Calculator
 {
-    public List<string> input = new();
-    public List<Expression> expressions = new();
+    private readonly List<string> _input = new();
+    public readonly List<Expression> Expressions = new();
 
     public void AppendInput(string next)
     {
-        input.Add(next);
+        _input.Add(next);
     }
     
     public void AppendOperator(Operator op)
     {
-        if (input.Count <= 0 && expressions.Count > 0 && expressions[^1] is Operator)
+        if (_input.Count <= 0 && Expressions.Count > 0 && Expressions[^1] is Operator)
         {
-            expressions[^1] = op;
-        } else if (input.Count <= 0 && expressions.Count > 0 && expressions[^1] is not Operator)
+            Expressions[^1] = op;
+        } 
+        else if (_input.Count <= 0 && Expressions.Count > 0 && Expressions[^1] is not Operator)
         {
-            expressions.Add(op);
+            Expressions.Add(op);
         }
-        else if (expressions.Count > 0 && expressions[^1] is Operand)
+        else if (Expressions.Count > 0 && Expressions[^1] is Operand)
         {
-            expressions.Add(op);
-            expressions.Add
+            Expressions.Add(op);
+            Expressions.Add
             (
                 new IntegerOperand
                 {
-                    value = Convert.ToInt32(string.Join("", input))
+                    Value = Convert.ToInt32(string.Join("", _input))
                 }
             );
         }
         else
         {
-            expressions.Add
+            Expressions.Add
             (
                 new IntegerOperand
                 {
-                    value = Convert.ToInt32(string.Join("", input))
+                    Value = Convert.ToInt32(string.Join("", _input))
                 }
             );
-            expressions.Add(op);
+            Expressions.Add(op);
         }
 
-        input.Clear();
+        _input.Clear();
     }
     
     public void Equals()
     {
-        if (input.Count <= 0)
+        if (_input.Count <= 0)
         {
             return;
         }
 
-        if (expressions.Count > 0 && expressions[^1] is Operand)
+        if (Expressions.Count > 0 && Expressions[^1] is Operand)
         {
             return;
         }
-        expressions.Add
+        Expressions.Add
         (
             new IntegerOperand
             {
-                value = Convert.ToInt32(string.Join("", input))
+                Value = Convert.ToInt32(string.Join("", _input))
             }
         );
-        input.Clear();
+        _input.Clear();
     }
 
     public string Calculate() 
@@ -73,12 +74,12 @@ public class Calculator
         var first = true;
         try
         {
-            foreach (var expression in expressions)
+            foreach (var expression in Expressions)
             {
                 if (first)
                 {
                     if (expression is not IntegerOperand integer) throw new Exception("no operand");
-                    sum += integer.value;
+                    sum += integer.Value;
                     first = false;
                     continue;
                 }
@@ -89,7 +90,7 @@ public class Calculator
                         currentOperator = op;
                         break;
                     case Operand rand:
-                        var value = (rand as IntegerOperand).value;
+                        var value = (rand as IntegerOperand).Value;
                         sum = currentOperator switch
                         {
                             AdditionOperator => sum + value,
@@ -102,7 +103,7 @@ public class Calculator
                 }
             }
         }
-        catch (DivideByZeroException ex)
+        catch (DivideByZeroException)
         {
             return "undefined";
         }
@@ -112,7 +113,7 @@ public class Calculator
 
     public string GetInput()
     {
-        var newInput = string.Join("", input);
+        var newInput = string.Join("", _input);
         return newInput.Length < 1 ? "0" : newInput;
     }
 }

@@ -17,11 +17,11 @@ public abstract class Operator : Expression
 
 public class IntegerOperand : Operand
 {
-    public int value { get; init; }
+    public int Value { get; init; }
 
     public override string ToString()
     {
-        return value.ToString();
+        return Value.ToString();
     }
 }
 

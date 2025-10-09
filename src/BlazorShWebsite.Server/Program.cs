@@ -1,9 +1,9 @@
 using BlazorShWebsite.Client.Js;
 using BlazorShWebsite.Server.Components;
 using BlazorShWebsite.Server.Services;
-using Notes = BlazorShWebsite.Notes;
 using SharedNotes = BlazorShWebsite.Shared.Notes;
 using BlazorShWebsite.Shared.Shared;
+using Hub = BlazorShWebsite.Server.Notes.Hub;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +35,7 @@ app.UseStatusCodePagesWithReExecute("/error", "?statusCode={0}");
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
+app.MapStaticAssets();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
@@ -45,6 +45,6 @@ app.MapRazorComponents<App>()
 
 app.MapGet("/sitemap.xml", Sitemap.Generate);
 
-app.MapHub<Notes.Hub>(SharedNotes.Constants.PartialHubPath.ToHubUrl());
+app.MapHub<Hub>(SharedNotes.Constants.PartialHubPath.ToHubUrl());
 
 app.Run();

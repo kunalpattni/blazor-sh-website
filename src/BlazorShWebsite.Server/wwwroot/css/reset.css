@@ -19,6 +19,7 @@ body {
 
 a, a:hover, a:active, a:visited {
     all: unset;
+    box-sizing: border-box;
     cursor: pointer;
     display: block;
 }
@@ -30,6 +31,7 @@ img {
 
 button {
     all: unset;
+    box-sizing: border-box;
     cursor: pointer;
     display: block;
 }

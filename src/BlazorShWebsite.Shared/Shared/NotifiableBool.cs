@@ -26,7 +26,7 @@ public class NotifiableBool : INotifyPropertyChanged
         var tcs = new TaskCompletionSource();
 
         PropertyChangedEventHandler handler = null!;
-        handler = (s, e) =>
+        handler = (_, _) =>
         {
             PropertyChanged -= handler;
             tcs.TrySetResult();

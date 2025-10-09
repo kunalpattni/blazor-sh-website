@@ -10,7 +10,7 @@ public static class Sitemap
         var urls = new List<SitemapUrl>
         {
             ("/", new DateOnly(2025, 10, 8)),
-            ("/ball-animation", new DateOnly(2025, 10, 8)),
+            ("/ball-animation", new DateOnly(2025, 10, 9)),
             ("/calculator", new DateOnly(2025, 10, 8)),
             ("/local-storage", new DateOnly(2025, 10, 8))
         };

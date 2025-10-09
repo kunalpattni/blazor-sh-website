@@ -1,6 +1,6 @@
-﻿<div class="@className">
-    <button class="toggle-icon" @onclick="@(ToggleNavMenu)">@iconString</button>
-    <div class="@hidden">
+﻿<div class="@_className">
+    <button class="toggle-icon" @onclick="@(ToggleNavMenu)">@_iconString</button>
+    <div class="@_hidden">
         @ChildContent
     </div>
 </div>
@@ -10,19 +10,19 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public bool? Mirror { get; set; }
 
-    private string hidden = "hidden";
-    private string className = "collapse";
-    private string iconString;
+    private string _hidden = "hidden";
+    private string _className = "collapse";
+    private string _iconString;
     
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         if (parameters.TryGetValue<bool>(nameof(Mirror), out var value))
         {
-            iconString = value ? "⇤" : "⇥";
+            _iconString = value ? "⇤" : "⇥";
         }
         else
         {
-            iconString = "⇥";
+            _iconString = "⇥";
         }
 
         await base.SetParametersAsync(parameters);
@@ -30,8 +30,8 @@
 
     private void ToggleNavMenu()
     {
-        hidden = hidden == "" ? "hidden" : "";
-        className = className == "" ? "collapse" : "";
-        iconString = iconString == "⇤" ? "⇥" : "⇤";
+        _hidden = _hidden == "" ? "hidden" : "";
+        _className = _className == "" ? "collapse" : "";
+        _iconString = _iconString == "⇤" ? "⇥" : "⇤";
     }
 }

@@ -1,0 +1,32 @@
+﻿<div class="information-panel @(_buttonClass)">
+    <button @onclick="ToggleContent" class="@(_buttonClass)">@_buttonContent</button>
+    <div hidden="@(!_showContent)" class="content">
+        <h1>@Title</h1>
+        @foreach (var paragraph in Paragraphs)
+        {
+            <p>@paragraph</p>
+        }
+        <a class="inline" target="_blank" href="https://github.com/kunalpattni/blazor-sh-website">View on Github</a>
+    </div>
+</div>
+
+<HeadContent>
+    <link rel="stylesheet" href="css/information-panel.css" />
+</HeadContent>
+
+@code
+{
+    [Parameter] public required string Title { get; set; }
+    [Parameter] public required List<string> Paragraphs { get; set; }
+
+    private bool _showContent;
+    private string _buttonClass = "";
+    private string _buttonContent = "ℹ";
+
+    private void ToggleContent()
+    {
+        _showContent = !_showContent;
+        _buttonClass = _showContent ? "active" : "";
+        _buttonContent = _showContent ? "✖" : "ℹ";
+    }
+}
