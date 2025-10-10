@@ -17,5 +17,5 @@
     <ItemGroup>
       <ProjectReference Include="..\BlazorShWebsite.Shared\BlazorShWebsite.Shared.csproj" />
     </ItemGroup>
-
+    
 </Project>
