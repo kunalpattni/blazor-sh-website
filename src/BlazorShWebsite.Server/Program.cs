@@ -3,6 +3,7 @@ using BlazorShWebsite.Server.Components;
 using BlazorShWebsite.Server.Services;
 using SharedNotes = BlazorShWebsite.Shared.Notes;
 using BlazorShWebsite.Shared.Shared;
+using Microsoft.AspNetCore.ResponseCompression;
 using Hub = BlazorShWebsite.Server.Notes.Hub;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddResponseCompression(opts =>
+{
+    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        [ "application/octet-stream" ]);
+});
 
 builder.Services.AddSignalR();
 
@@ -26,6 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
+    app.UseResponseCompression();
     app.UseExceptionHandler("/error", createScopeForErrors: true);
 
     app.UseHsts();
