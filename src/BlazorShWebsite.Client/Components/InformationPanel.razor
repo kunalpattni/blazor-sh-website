@@ -1,4 +1,5 @@
-﻿<div class="information-panel @(_buttonClass)">
+﻿@using System.Collections.Immutable
+<div class="information-panel @(_buttonClass)">
     <button @onclick="ToggleContent" class="@(_buttonClass)">@_buttonContent</button>
     <div hidden="@(!_showContent)" class="content">
         <h1>@Title</h1>
@@ -10,14 +11,10 @@
     </div>
 </div>
 
-<HeadContent>
-    <link rel="stylesheet" href="@Assets["css/information-panel.css"]" />
-</HeadContent>
-
 @code
 {
     [Parameter] public required string Title { get; set; }
-    [Parameter] public required List<string> Paragraphs { get; set; }
+    [Parameter] public required ImmutableList<string> Paragraphs { get; set; }
 
     private bool _showContent;
     private string _buttonClass = "";

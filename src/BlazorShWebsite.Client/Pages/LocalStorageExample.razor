@@ -1,9 +1,20 @@
 ﻿@page "/local-storage"
+@using System.Collections.Immutable
 @using BlazorShWebsite.Client.Components
 @using BlazorShWebsite.Client.Js
 @inject LocalStorage LocalStorage
 
-<SuffixedPageTitle Title="Local Storage" />
+@{
+    var title = "Local Storage";
+    ImmutableList<string> infoParagraphs = [
+        "My first foray into JSInterop to see how easy it is to work with.",
+        "Turns out it is incredibly nice to use, calling JS APIs is quite simple and allows the user to add things to their localstorage",
+        "I later created an organised C# API that reflects the LocalStorage API exactly.",
+        "I'm sure the need for me to build extensions in the future that are more performant and can make use of more expressive C#."
+    ];
+}
+
+<SuffixedPageTitle Title="@title" />
 
 <div class="local-storage-wrapper">
     <div class="controls">
@@ -39,6 +50,7 @@
             }
         }
     </div>
+    <InformationPanel Title="@title" Paragraphs="@infoParagraphs"/>
 </div>
 
 <HeadContent>

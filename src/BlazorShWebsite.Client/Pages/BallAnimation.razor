@@ -1,4 +1,5 @@
 @page "/ball-animation"
+@using System.Collections.Immutable
 @using System.Diagnostics
 @using BlazorShWebsite.Client.Components
 @using BlazorShWebsite.Client.Js
@@ -8,7 +9,7 @@
 
 @{
     var title = "Ball Animation";
-    List<string> infoParagraphs = [
+    ImmutableList<string> infoParagraphs = [
         "I wanted to see what it would be like to animate elements on a page by modifying their attributes in C# and not using JS interop.", 
         "Turns out, it'd definitely possible but it's is limited to being CPU bound and unreliable. You can get a decent framerate but you should definitely use the JS APIs instead like requestAnimationFrame or Element,animate() that can utilise the browsers optimised animation system.",
         "Speaking of requestAnimationFrame or Element,animate(), I'll probably try to implement JsInterop for these soon and produce another demo of that. For now, CSS animations will do the job."
@@ -17,8 +18,11 @@
 
 <SuffixedPageTitle Title="@title" />
 
+<HeadContent>
+    <meta name="description" content="Animating multiple balls written only in C# using blazor wasm">
+</HeadContent>
+
 <div class="page-wrapper" id="@_containerElementId" style="position: relative;">
-    <InformationPanel Title="@title" Paragraphs="@infoParagraphs"/>
     <div class="stats">
         <p>Balls: @_balls.Count | FPS: @_fps</p>
         <button @onclick="RemoveBall">Remove Ball</button>
@@ -31,11 +35,8 @@
     {
         <div class="ball" style="left:@(b.X)px; top:@(b.Y)px;"></div>
     }
+    <InformationPanel Title="@title" Paragraphs="@infoParagraphs"/>
 </div>
-
-<HeadContent>
-    <meta name="description" content="Animating multiple balls written only in C# using blazor wasm">
-</HeadContent>
 
 @code {
     private record Ball(double X, double Y, double Vx, double Vy)

@@ -1,10 +1,26 @@
 ﻿@page "/calculator"
+@using System.Collections.Immutable
 @using BlazorShWebsite.Client.Calculator
 @using BlazorShWebsite.Client.Components
+@using BlazorShWebsite.Client.Components.Styles
 
-<SuffixedPageTitle Title="Calculator" />
+@{
+    var title = "Calculator";
+    ImmutableList<string> infoParagraphs = [
+        "The first application I created that was initially served as a static website serving only the WASM app.",
+        "The idea was to see what UI could be accomplished using C#.",
+        "The calculator itself is very simple, permitting integer operations using some inheritance to allow the operation pool to be extended in the future"
+    ];
+}
+
+<SuffixedPageTitle Title="@title" />
+
+<HeadContent>
+    <meta name="description" content="A simple calculator written only in C# using blazor wasm">
+</HeadContent>
 
 <div class="page-wrapper">
+    <StylesForCalculator/>
     <div class="calculator">
         <p class="result">@_calculator.Calculate()</p>
         <p class="input">@_calculator.GetInput()</p>
@@ -34,12 +50,8 @@
             <p class='@expression.GetClassName()'>@expression.ToString()</p>
         }
     </div>
+    <InformationPanel Title="@title" Paragraphs="@infoParagraphs"/>
 </div>
-
-<HeadContent>
-    <link rel="stylesheet" href="@Assets["css/calculator.css"]" />
-    <meta name="description" content="A simple calculator written only in C# using blazor wasm">
-</HeadContent>
 
 @code {
     private readonly Client.Calculator.Calculator _calculator = new();

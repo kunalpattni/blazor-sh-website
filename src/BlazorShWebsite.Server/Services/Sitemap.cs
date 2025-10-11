@@ -11,8 +11,8 @@ public static class Sitemap
         {
             ("/", new DateOnly(2025, 10, 8)),
             ("/ball-animation", new DateOnly(2025, 10, 9)),
-            ("/calculator", new DateOnly(2025, 10, 8)),
-            ("/local-storage", new DateOnly(2025, 10, 8))
+            ("/calculator", new DateOnly(2025, 10, 11)),
+            ("/local-storage", new DateOnly(2025, 10, 11))
         };
         
         return $"""

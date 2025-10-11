@@ -122,6 +122,95 @@ a.inline:hover, a.inline:active {
     }
 }
 
+.information-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    color: white;
+    height: 100%;
+    transition-duration: 0.2s;
+    transition-property: padding, background, width;
+    width: 64px;
+    background: transparent;
+    overflow-x: hidden;
+    padding: 10px 0 0 0;
+
+    button {
+        height: 40px;
+        width: 40px;
+        text-align: center;
+        align-content: center;
+        border: 2px solid var(--sidebar-background-default);
+        border-radius: 50%;
+        margin: 10px;
+        font-size: 1.2em;
+        color: var(--sidebar-background-default);
+        transition: color, border-color 0.2s;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: white;
+    }
+
+    button:hover {
+        color: white;
+        background: var(--sidebar-background-default);
+    }
+
+    button.active {
+        color: white;
+        border-color: white;
+        margin: 10px 0 0 10px;
+        background: transparent;
+    }
+
+    button.active:hover {
+        background: white;
+        color: var(--sidebar-background-default);
+    }
+
+    .content {
+        width: 0;
+        overflow: hidden;
+        transition: all 0.2s;
+
+        h1 {
+            margin-bottom: 20px;
+            margin-left: 53px;
+            padding-top: 3px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        a.inline, a.inline:visited {
+            border: 2px solid white;
+            padding: 10px 0;width: 100%;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        a.inline:hover, a.inline:active {
+            background: white;
+            color: var(--sidebar-background-default);
+        }
+    }
+}
+
+.information-panel.active {
+    padding: 10px 20px 0 20px;
+    background: var(--sidebar-background-default);
+    box-shadow: -2px 0 7px 2px rgba(0,0,0,0.5);
+    width: 400px;
+
+    .content {
+        width: 360px;
+    }
+}
+
 main {
     height: 100%;
     width: 100%;
