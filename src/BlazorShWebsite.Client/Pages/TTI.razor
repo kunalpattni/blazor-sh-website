@@ -1,0 +1,26 @@
+﻿@page "/tti"
+@inherits BlazorShWebsite.Client.EveryPage.PageComponent
+@using System.Collections.Immutable
+@using BlazorShWebsite.Client.Components
+
+@{
+    var title = "Time To Interactive";
+    ImmutableList<string> infoParagraphs = [
+        "Just wanted to see how long it takes for a page to become interactive as this is when JS Interop can function and button clicks will do something.",
+        "This starts a performance.now() when the initial page loads and does a diff between that and when the Page's OnRenderAsync() calls.",
+        "Turns out it pretty much always takes about 800ms except when the page has already loaded and you lose network access, then it takes around 200ms because the page has already been loaded interactively on the server and is just reconnecting before it runs the JS.",
+        "Page navigations following the initial TTI have a negligible TTI, between 0.5ms and 50ms, so as long as you can mask the first load of any page behind a clever UI, you're safe to assume total interactivity after that.",
+        "Bear in mind that I have only tested this on small pages where the components use do not block because that will certainly affect the TTI."
+    ];
+}
+
+<SuffixedPageTitle Title="@title" />
+
+<HeadContent>
+    <meta name="description" content="Testing the time it takes for a page to become interactive">
+</HeadContent>
+
+<div class="local-storage-wrapper">
+    <div>Time to interactive: @Tti.ToString("0.00 ms")</div>
+    <InformationPanel Title="@title" Paragraphs="@infoParagraphs"/>
+</div>

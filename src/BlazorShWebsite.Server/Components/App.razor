@@ -15,6 +15,10 @@
 
 <body>
 <Routes @rendermode="InteractiveAuto"/>
+<script>
+    window.tti = performance.now();
+    console.log(`TTI (approx): ${window.tti} ms`);
+</script>
 <script src="_framework/blazor.web.js"></script>
 </body>
 

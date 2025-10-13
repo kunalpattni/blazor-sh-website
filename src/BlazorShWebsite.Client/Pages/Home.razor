@@ -1,7 +1,14 @@
 ﻿@page "/"
+@inherits BlazorShWebsite.Client.EveryPage.PageComponent
 @using BlazorShWebsite.Client.Components
 
 <SuffixedPageTitle Title="Home" />
+
+<HeadContent>
+    <link rel="stylesheet" href="@Assets["css/home.css"]" />
+    <meta name="description" content="Web assembly blazor examples built using C# on .NET">
+    <GoogleWebsiteStructuredData/>
+</HeadContent>
 
 <div class="home-wrapper">
     <h1>Just Blazor things</h1>
@@ -20,9 +27,3 @@
         <a class="inline" href="https://kunalpattni.co.uk">kunalpattni.co.uk</a>
     </footer>
 </div>
-
-<HeadContent>
-    <link rel="stylesheet" href="@Assets["css/home.css"]" />
-    <meta name="description" content="Web assembly blazor examples built using C# on .NET">
-    <GoogleWebsiteStructuredData/>
-</HeadContent>

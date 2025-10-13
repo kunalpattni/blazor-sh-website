@@ -1,11 +1,11 @@
 @page "/ball-animation"
+@inherits BlazorShWebsite.Client.EveryPage.PageComponent
 @using System.Collections.Immutable
 @using System.Diagnostics
 @using BlazorShWebsite.Client.Components
 @using BlazorShWebsite.Client.Js
 @using BlazorShWebsite.Shared.Shared
 @inject Element Element
-@implements IAsyncDisposable
 
 @{
     var title = "Ball Animation";
@@ -77,17 +77,19 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
             await Start();
         }
     }
     
-    public async ValueTask DisposeAsync()
+    public override async ValueTask DisposeAsync()
     {
         _pauseRequested = true;
         await Pause();
         await Task.Delay(10);
+        await base.DisposeAsync();
         await Task.CompletedTask;
     }
 
