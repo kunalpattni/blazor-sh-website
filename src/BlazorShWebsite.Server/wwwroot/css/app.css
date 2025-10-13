@@ -32,6 +32,9 @@ a.inline:hover, a.inline:active {
 
 .sidebar {
     background: var(--sidebar-background-default);
+    position: sticky;
+    height: 100dvh;
+    top: 0;
     
     div {
         width: 200px;
@@ -92,6 +95,14 @@ a.inline:hover, a.inline:active {
 
     a.active {
         background: var(--sidebar-button-link-active-default);
+    }
+}
+
+@media (max-width: 1023px) {
+    .sidebar {
+        div {
+            
+        }
     }
 }
 
@@ -163,6 +174,7 @@ a.inline:hover, a.inline:active {
         border-color: white;
         margin: 10px 0 0 10px;
         background: transparent;
+        font-size: 1em;
     }
 
     button.active:hover {
@@ -212,7 +224,7 @@ a.inline:hover, a.inline:active {
 }
 
 main {
-    height: 100%;
+    min-height: 100dvh;
     width: 100%;
 }
 

@@ -2,7 +2,6 @@ namespace BlazorShWebsite.Server.Services;
 
 using SitemapUrl = (string loc, DateOnly lastmod);
 
-
 public static class Sitemap
 {
     public static string Generate()
