@@ -82,15 +82,12 @@
         {
             await Start();
         }
-    }
-    
-    public override async ValueTask DisposeAsync()
-    {
-        _pauseRequested = true;
-        await Pause();
-        await Task.Delay(10);
-        await base.DisposeAsync();
-        await Task.CompletedTask;
+
+        NavigationManager.RegisterLocationChangingHandler(async (_) =>
+        {
+            _pauseRequested = true;
+            await Pause();
+        });
     }
 
     private async Task AnimationLoop()
@@ -98,8 +95,8 @@
         while (!_pauseRequested)
         {
             _stopwatch.Start();
-            _screenWidth = await Element.ClientWidth(_containerElementId);
-            _screenHeight = await Element.ClientHeight(_containerElementId);
+            _screenWidth = await Element.ClientWidth(_containerElementId) ?? 600;
+            _screenHeight = await Element.ClientHeight(_containerElementId) ?? 600;
             Update();
             StateHasChanged();
             var elapsed = Convert.ToInt32(_stopwatch.ElapsedMilliseconds);

@@ -2,63 +2,70 @@ using Microsoft.JSInterop;
 
 namespace BlazorShWebsite.Client.Js;
 
-public class LocalStorage(IJSRuntime? js) : JsApi(js)
+public class LocalStorage(IJSRuntime? js, ILogger<LocalStorage> logger) : JsApi(js, logger)
 {
     private readonly IJSRuntime? _js = js;
 
-    public async Task<int> Length()
+    public async Task<int?> Length()
     {
-        EnsureIJSRuntimeExists();
+        if(!TryEnsureIJsRuntimeExists())
+        {
+            return null;
+        }
         
         return await _js!.InvokeAsync<int>("eval", "localStorage.length");
     }
     
     public async Task<string?> Key(int index)
     {
-        EnsureIJSRuntimeExists();
+        if(!TryEnsureIJsRuntimeExists()) 
+        {
+            return null;
+        }
         
         return await _js!.InvokeAsync<string?>("eval", $"localStorage.key({index})");
     }
     
     public async Task<string?> GetItem(string key)
     {
-        EnsureIJSRuntimeExists();
+        if(!TryEnsureIJsRuntimeExists()) 
+        {
+            return null;
+        }
         
         return await _js!.InvokeAsync<string?>("eval", $"localStorage.getItem('{key}')");
     }
     
-    public async Task SetItem(string key, string value)
+    public async Task<bool> SetItem(string key, string value)
     {
-        EnsureIJSRuntimeExists();
+        if(!TryEnsureIJsRuntimeExists()) 
+        {
+            return false;
+        }
         
         await _js!.InvokeVoidAsync("eval", $"localStorage.setItem('{key}', '{value}')");
+        return true;
     }
     
-    public async Task RemoveItem(string key)
+    public async Task<bool> RemoveItem(string key)
     {
-        EnsureIJSRuntimeExists();
+        if(!TryEnsureIJsRuntimeExists()) 
+        {
+            return false;
+        }
         
         await _js!.InvokeVoidAsync("eval", $"localStorage.removeItem('{key}')");
+        return true;
     }
     
-    public async Task Clear()
+    public async Task<bool> Clear()
     {
-        EnsureIJSRuntimeExists();
+        if(!TryEnsureIJsRuntimeExists()) 
+        {
+            return false;
+        }
         
         await _js!.InvokeVoidAsync("eval", "localStorage.clear()");
+        return true;
     }
-
-    //     Storage.getItem()
-    // When passed a key name, will return that key's value.
-    //
-    //     Storage.setItem()
-    //     When passed a key name and value, will add that key to the storage, or update that key's value if it already exists.
-    //
-    //     Storage.removeItem()
-    //     When passed a key name, will remove that key from the storage.
-    //
-    //     Storage.clear()
-    // When invoked, will empty all keys out of the storage.
-
-    
 }
