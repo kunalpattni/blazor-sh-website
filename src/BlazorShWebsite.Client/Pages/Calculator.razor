@@ -1,9 +1,8 @@
 ﻿@page "/calculator"
 @inherits BlazorShWebsite.Client.EveryPage.PageComponent
 @using System.Collections.Immutable
-@using BlazorShWebsite.Client.Calculator
 @using BlazorShWebsite.Client.Components
-@using BlazorShWebsite.Client.Components.Styles
+@using BlazorShWebsite.Client.Services.Calculator
 
 @{
     var title = "Calculator";
@@ -55,6 +54,6 @@
 </div>
 
 @code {
-    private readonly Client.Calculator.Calculator _calculator = new();
+    private readonly Services.Calculator.Calculator _calculator = new();
     
 }

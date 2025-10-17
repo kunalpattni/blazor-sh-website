@@ -258,6 +258,13 @@ main {
     justify-content: space-evenly;
 }
 
+.mileage-tracker-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
 .stats {
     position: absolute;
     top: 10px;

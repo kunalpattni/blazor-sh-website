@@ -12,7 +12,8 @@ public static class Sitemap
             ("/ball-animation", new DateOnly(2025, 10, 9)),
             ("/calculator", new DateOnly(2025, 10, 11)),
             ("/local-storage", new DateOnly(2025, 10, 11)),
-            ("/tti", new DateOnly(2025, 10, 13))
+            ("/tti", new DateOnly(2025, 10, 13)),
+            ("/mileage", new DateOnly(2025, 10, 16))
         };
         
         return $"""

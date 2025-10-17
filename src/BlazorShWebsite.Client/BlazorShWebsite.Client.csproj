@@ -17,5 +17,18 @@
     <ItemGroup>
       <ProjectReference Include="..\BlazorShWebsite.Shared\BlazorShWebsite.Shared.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\Styles\" />
+      <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Services\Calculator\StylesForCalculator.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Mileage\StylesForMileageTracker.razor" />
+    </ItemGroup>
     
 </Project>

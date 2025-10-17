@@ -1,4 +1,4 @@
-namespace BlazorShWebsite.Client.Calculator;
+namespace BlazorShWebsite.Client.Services.Calculator;
 
 public interface Expression
 {
