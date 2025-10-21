@@ -24,11 +24,11 @@
     <div class="row">
         <div class="input">
             <label for="initial-mileage">Initial Mileage</label>
-            <input id="initial-mileage" type="number" @oninput="e => OnInputEventHandler(e, MileageInputId.InitialMileage)"/>
+            <input id="initial-mileage" type="number" @oninput="e => OnPageInputEventHandler(e, MileageInputId.InitialMileage)"/>
         </div>
         <div class="input">
             <label for="contracted-miles">Contracted miles</label>
-            <input id="contracted-miles" type="number" @oninput="e => OnInputEventHandler(e, MileageInputId.ContractedMiles)"/>
+            <input id="contracted-miles" type="number" @oninput="e => OnPageInputEventHandler(e, MileageInputId.InitialMileage)"/>
         </div>
     </div>
     <table>
@@ -46,16 +46,25 @@
             <th>
                 <div class="label">Cost per day</div></th>
         </tr>
-        <tr>
-            <td><input id="fill-date" type="date" /></td>
-            <td><input id="current-mileage" type="number" /></td>
-            <td><input id="price-per-litre" type="number" step="0.01" /></td>
-            <td><input id="total-price" type="number" step="0.01" /></td>
-            <td><div class="value" id="litres-filled"></div></td>
-            <td><div class="value" id="cost-per-mile"></div></td>
-            <td><div class="value" id="days-since-last-filled"></div></td>
-            <td><div class="value" id="cost-per-day"></div></td>
-        </tr>
+        @for (var i = 0; i < _rowInputs.Count; i++)
+        {
+            var rowId = i;
+            <tr>
+                <td><input id="fill-date" type="date" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.FillDate)"/></td>
+                <td><input id="current-mileage" type="number" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.CurrentMileage)"/></td>
+                <td><input id="price-per-litre" type="number" step="0.01" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.PricePerLitre)"/></td>
+                <td><input id="total-price" type="number" step="0.01" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.TotalPrice)"/></td>
+                <td>
+                    <div class="value" id="litres-filled">@_rowInputs[rowId].LitresFilled</div></td>
+                <td>
+                    <div class="value" id="cost-per-mile">@_rowInputs[rowId].CostPerMile(0)</div></td>
+                <td>
+                    <div class="value" id="days-since-last-filled">@_rowInputs[rowId].DaysSinceLastFill(null)</div></td>
+                <td>
+                    <div class="value" id="cost-per-day">@_rowInputs[rowId].CostPerDay(null)</div></td>
+            </tr>
+        }
     </table>
+    <button class="inline" @onclick="AddRow">Add Row</button>
     <InformationPanel Title="@title" Paragraphs="@infoParagraphs"/>
 </div>

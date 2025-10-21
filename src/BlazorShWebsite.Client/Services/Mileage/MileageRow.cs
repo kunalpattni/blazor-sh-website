@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace BlazorShWebsite.Client.Services.Mileage;
 
 public class MileageRow
@@ -12,7 +10,7 @@ public class MileageRow
     public decimal? LitresFilled => TotalPrice / PricePerLitre;
 
     public decimal CostPerMile(int initialMileage) => (CurrentMileage - initialMileage) / TotalPrice ?? 1;
-    public int? DaysSinceLastFill(DateOnly? previousFillDate) => previousFillDate is null ? 0 : (Convert.ToDateTime(FillDate ?? DateOnly.FromDateTime(DateTime.Today)) - Convert.ToDateTime(previousFillDate)).Days;
-    public decimal? CostPerDay(DateOnly? previousFillDate) => TotalPrice / DaysSinceLastFill(previousFillDate) == 0 ? 1 : DaysSinceLastFill(previousFillDate);
+    public int? DaysSinceLastFill(DateOnly? previousFillDate) => previousFillDate is null ? 1 : (Convert.ToDateTime(FillDate ?? DateOnly.FromDateTime(DateTime.Today)) - Convert.ToDateTime(previousFillDate)).Days;
+    public decimal? CostPerDay(DateOnly? previousFillDate) => TotalPrice / DaysSinceLastFill(previousFillDate) == TotalPrice ? 1 : DaysSinceLastFill(previousFillDate);
 
 }
