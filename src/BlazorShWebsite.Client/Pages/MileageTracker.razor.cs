@@ -57,28 +57,40 @@ public partial class MileageTracker
 
     private void RecalculateAll(ChangeEventArgs args)
     {
-        throw new NotImplementedException();
+        StateHasChanged();
     }
     private void RecalculateRow(ChangeEventArgs args, int row, MileageRowInputId inputId)
     {
-        Console.WriteLine($"args.Value: {args.Value}");
         var mileageRow = _rowInputs[row];
         switch (inputId)
         {
             case MileageRowInputId.FillDate:
-                mileageRow.FillDate = DateOnly.ParseExact(Convert.ToString(args.Value), "yyyy-MM-dd");
+                if (DateOnly.TryParseExact(Convert.ToString(args.Value), "yyyy-MM-dd", out var fillDate))
+                {
+                    mileageRow.FillDate = fillDate;
+                }
                 break;
             case MileageRowInputId.CurrentMileage:
-                mileageRow.CurrentMileage = Convert.ToInt32(args.Value);
+                if (int.TryParse(Convert.ToString(args.Value), out var currentMileage)) 
+                {
+                    mileageRow.CurrentMileage = currentMileage;
+                }
                 break;
             case MileageRowInputId.PricePerLitre:
-                mileageRow.PricePerLitre = Convert.ToDecimal(args.Value);
+                if (decimal.TryParse(Convert.ToString(args.Value), out var pricePerLitre)) 
+                {
+                    mileageRow.PricePerLitre = pricePerLitre;
+                }
                 break;
             case MileageRowInputId.TotalPrice:
-                mileageRow.TotalPrice = Convert.ToDecimal(args.Value);
+                if (decimal.TryParse(Convert.ToString(args.Value), out var totalPrice)) 
+                {
+                    mileageRow.TotalPrice = totalPrice;
+                }
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(inputId), inputId, null);
         }
+        StateHasChanged();
     }
 }

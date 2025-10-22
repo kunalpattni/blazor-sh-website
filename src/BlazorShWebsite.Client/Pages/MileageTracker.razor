@@ -55,13 +55,13 @@
                 <td><input id="price-per-litre" type="number" step="0.01" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.PricePerLitre)"/></td>
                 <td><input id="total-price" type="number" step="0.01" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.TotalPrice)"/></td>
                 <td>
-                    <div class="value" id="litres-filled">@_rowInputs[rowId].LitresFilled</div></td>
+                    <div class="value" id="litres-filled">@_rowInputs[rowId].LitresFilledString()</div></td>
                 <td>
-                    <div class="value" id="cost-per-mile">@_rowInputs[rowId].CostPerMile(0)</div></td>
+                    <div class="value" id="cost-per-mile">@_rowInputs[rowId].CostPerMileString(0)</div></td>
                 <td>
-                    <div class="value" id="days-since-last-filled">@_rowInputs[rowId].DaysSinceLastFill(null)</div></td>
+                    <div class="value" id="days-since-last-filled">@_rowInputs[rowId].DaysSinceLastFillString(null)</div></td>
                 <td>
-                    <div class="value" id="cost-per-day">@_rowInputs[rowId].CostPerDay(null)</div></td>
+                    <div class="value" id="cost-per-day">@_rowInputs[rowId].CostPerDayString(null)</div></td>
             </tr>
         }
     </table>
