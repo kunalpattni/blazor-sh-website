@@ -1,7 +1,6 @@
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace BlazorShWebsite.Client.Js;
+namespace BlazorShWebsite.Client.Js.Legacy;
 
 public class Element(IJSRuntime? js, ILogger<Element> logger) : JsApi(js, logger)
 {

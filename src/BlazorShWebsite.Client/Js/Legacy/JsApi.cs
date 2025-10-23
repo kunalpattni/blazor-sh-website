@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace BlazorShWebsite.Client.Js;
+namespace BlazorShWebsite.Client.Js.Legacy;
 
 public abstract class JsApi(IJSRuntime? js, ILogger<JsApi> logger)
 {

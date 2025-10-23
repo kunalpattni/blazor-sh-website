@@ -1,3 +1,6 @@
+using BlazorShWebsite.Client.Js;
+using Legacy = BlazorShWebsite.Client.Js.Legacy;
+
 using BlazorShWebsite.Client.Services.Mileage;
 using Microsoft.AspNetCore.Components;
 
@@ -15,12 +18,25 @@ public partial class MileageTracker
     {
         new MileageRow()
     };
+    
+    [Inject] Legacy.LocalStorage LegacyLocalStorage { get; set; }
+    private string AfterRenderServer = "loading";
+    private string AfterRenderBrowser = "loading";
+    private string Initialized = "loading";
+    private string ParametersSet = "loading";
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            
+            AfterRenderServer = await LegacyLocalStorage.GetItem("test2");
+            if (OperatingSystem.IsBrowser())
+            {
+                AfterRenderBrowser = LocalStorage.GetItem("test");
+            }
+
+            // Task.Yield();
+            StateHasChanged();
         }
     }
 

@@ -57,7 +57,7 @@
                 <td>
                     <div class="value" id="litres-filled">@_rowInputs[rowId].LitresFilledString()</div></td>
                 <td>
-                    <div class="value" id="cost-per-mile">@_rowInputs[rowId].CostPerMileString(0)</div></td>
+                    <div class="value" id="cost-per-mile">@_rowInputs[rowId].CostPerMileString(null)</div></td>
                 <td>
                     <div class="value" id="days-since-last-filled">@_rowInputs[rowId].DaysSinceLastFillString(null)</div></td>
                 <td>
@@ -66,5 +66,9 @@
         }
     </table>
     <button class="inline" @onclick="AddRow">Add Row</button>
+    <button class="inline">@AfterRenderServer</button>
+    <button class="inline">@AfterRenderBrowser</button>
+    <button class="inline">@ParametersSet</button>
+    <button class="inline">@Initialized</button>
     <InformationPanel Title="@title" Paragraphs="@infoParagraphs"/>
 </div>

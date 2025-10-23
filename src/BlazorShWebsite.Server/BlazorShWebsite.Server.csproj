@@ -13,6 +13,7 @@
     
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.9" />
+        <PackageReference Include="Microsoft.Azure.SignalR" Version="1.32.0" />
     </ItemGroup>
 
 </Project>

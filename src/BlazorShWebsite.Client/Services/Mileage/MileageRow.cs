@@ -9,18 +9,18 @@ public class MileageRow
     public decimal? PricePerLitre { get; set; }
     public decimal? TotalPrice { get; set; }
 
-    public decimal? LitresFilled => TotalPrice / PricePerLitre;
+    private decimal? LitresFilled => TotalPrice / PricePerLitre;
 
-    public decimal? CostPerMile(int initialMileage)
+    private decimal? CostPerMile(int? previousMileage)
     {
-        if (CurrentMileage is null || TotalPrice is null)
+        if (CurrentMileage is null || TotalPrice is null || previousMileage is null)
         {
             return null;
         }
-        return (CurrentMileage - initialMileage) / TotalPrice;
+        return (CurrentMileage - previousMileage) / TotalPrice;
     }
 
-    public int? DaysSinceLastFill(DateOnly? previousFillDate)
+    private int? DaysSinceLastFill(DateOnly? previousFillDate)
     {
         if (previousFillDate is null || FillDate is null)
         {
@@ -29,7 +29,7 @@ public class MileageRow
         return (Convert.ToDateTime(FillDate) - Convert.ToDateTime(previousFillDate)).Days;
     }
 
-    public decimal? CostPerDay(DateOnly? previousFillDate)
+    private decimal? CostPerDay(DateOnly? previousFillDate)
     {
         if (previousFillDate is null || TotalPrice is null)
         {
@@ -39,9 +39,9 @@ public class MileageRow
         return TotalPrice / DaysSinceLastFill(previousFillDate);
     }
 
-    public string CostPerMileString(int initialMileage)
+    public string CostPerMileString(int? previousMileage)
     {
-        var costPerMile = CostPerMile(initialMileage);
+        var costPerMile = CostPerMile(previousMileage);
         if (costPerMile is null)
         {
             return "-";
