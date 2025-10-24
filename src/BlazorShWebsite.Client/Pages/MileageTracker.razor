@@ -46,29 +46,26 @@
             <th>
                 <div class="label">Cost per day</div></th>
         </tr>
-        @for (var i = 0; i < _rowInputs.Count; i++)
+        @for (var i = 0; i < _mileageState.Rows.Count; i++)
         {
             var rowId = i;
-            <tr>
+            <tr @key="rowId">
                 <td><input id="fill-date" type="date" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.FillDate)"/></td>
                 <td><input id="current-mileage" type="number" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.CurrentMileage)"/></td>
                 <td><input id="price-per-litre" type="number" step="0.01" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.PricePerLitre)"/></td>
                 <td><input id="total-price" type="number" step="0.01" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.TotalPrice)"/></td>
                 <td>
-                    <div class="value" id="litres-filled">@_rowInputs[rowId].LitresFilledString()</div></td>
+                    <div class="value" id="litres-filled">@_mileageState.Rows[rowId].LitresFilledString()</div></td>
                 <td>
-                    <div class="value" id="cost-per-mile">@_rowInputs[rowId].CostPerMileString(null)</div></td>
+                    <div class="value" id="cost-per-mile">@_mileageState.Rows[rowId].CostPerMileString(null)</div></td>
                 <td>
-                    <div class="value" id="days-since-last-filled">@_rowInputs[rowId].DaysSinceLastFillString(null)</div></td>
+                    <div class="value" id="days-since-last-filled">@_mileageState.Rows[rowId].DaysSinceLastFillString(null)</div></td>
                 <td>
-                    <div class="value" id="cost-per-day">@_rowInputs[rowId].CostPerDayString(null)</div></td>
+                    <div class="value" id="cost-per-day">@_mileageState.Rows[rowId].CostPerDayString(null)</div></td>
             </tr>
         }
     </table>
     <button class="inline" @onclick="AddRow">Add Row</button>
-    <button class="inline">@AfterRenderServer</button>
-    <button class="inline">@AfterRenderBrowser</button>
-    <button class="inline">@ParametersSet</button>
-    <button class="inline">@Initialized</button>
+    <button class="inline">@_mileageState</button>
     <InformationPanel Title="@title" Paragraphs="@infoParagraphs"/>
 </div>

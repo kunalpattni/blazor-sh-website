@@ -1,6 +1,4 @@
 using BlazorShWebsite.Client.Js;
-using Legacy = BlazorShWebsite.Client.Js.Legacy;
-
 using BlazorShWebsite.Client.Services.Mileage;
 using Microsoft.AspNetCore.Components;
 
@@ -8,37 +6,25 @@ namespace BlazorShWebsite.Client.Pages;
 
 public partial class MileageTracker
 {
+    [Inject] LocalStorage LocalStorage { get; set; }
+    [Inject] MileageStateManager MileageStateManager { get; set; }
+    
     private Dictionary<MileageInputId, MileageInput> _pageInputs = new()
     {
         {MileageInputId.InitialMileage, new()},
         {MileageInputId.ContractedMiles, new()}
     };
-
-    private List<MileageRow> _rowInputs = new()
-    {
-        new MileageRow()
-    };
-    
-    [Inject] Legacy.LocalStorage LegacyLocalStorage { get; set; }
-    private string AfterRenderServer = "loading";
-    private string AfterRenderBrowser = "loading";
-    private string Initialized = "loading";
-    private string ParametersSet = "loading";
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            AfterRenderServer = await LegacyLocalStorage.GetItem("test2");
-            if (OperatingSystem.IsBrowser())
-            {
-                AfterRenderBrowser = LocalStorage.GetItem("test");
-            }
-
-            // Task.Yield();
+            await LocalStorage.Initialise();
+            MileageStateManager = MileageStateManager.GetOrCreate(await LocalStorage.GetItem("mileage-data"));
+            await Task.Yield();
             StateHasChanged();
         }
     }
+
 
     private async Task OnPageInputEventHandler(ChangeEventArgs args, MileageInputId inputId)
     {
@@ -63,7 +49,7 @@ public partial class MileageTracker
     
     private void AddRow()
     {
-        _rowInputs.Add(new());
+        _mileageState.Rows.Add(new());
     }
 
     private void RecalculateChart(ChangeEventArgs args)
@@ -77,7 +63,7 @@ public partial class MileageTracker
     }
     private void RecalculateRow(ChangeEventArgs args, int row, MileageRowInputId inputId)
     {
-        var mileageRow = _rowInputs[row];
+        var mileageRow = _mileageState.Rows[row];
         switch (inputId)
         {
             case MileageRowInputId.FillDate:
