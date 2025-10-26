@@ -8,12 +8,14 @@ public partial class MileageTracker
 {
     [Inject] LocalStorage LocalStorage { get; set; }
     [Inject] MileageStateManager MileageStateManager { get; set; }
+    [Inject] PersistentComponentState ApplicationState { get; set; }
     
     private Dictionary<MileageInputId, MileageInput> _pageInputs = new()
     {
         {MileageInputId.InitialMileage, new()},
         {MileageInputId.ContractedMiles, new()}
     };
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -24,8 +26,7 @@ public partial class MileageTracker
             StateHasChanged();
         }
     }
-
-
+    
     private async Task OnPageInputEventHandler(ChangeEventArgs args, MileageInputId inputId)
     {
         switch (inputId)
@@ -39,7 +40,6 @@ public partial class MileageTracker
             default:
                 throw new ArgumentOutOfRangeException(nameof(inputId), inputId, null);
         }
-
     }
     
     private async Task OnRowInputEventHandler(ChangeEventArgs args, int row, MileageRowInputId inputId)
@@ -49,7 +49,7 @@ public partial class MileageTracker
     
     private void AddRow()
     {
-        _mileageState.Rows.Add(new());
+        MileageStateManager.State.Rows.Add(new());
     }
 
     private void RecalculateChart(ChangeEventArgs args)
@@ -61,9 +61,10 @@ public partial class MileageTracker
     {
         StateHasChanged();
     }
+    
     private void RecalculateRow(ChangeEventArgs args, int row, MileageRowInputId inputId)
     {
-        var mileageRow = _mileageState.Rows[row];
+        var mileageRow = MileageStateManager.State.Rows[row];
         switch (inputId)
         {
             case MileageRowInputId.FillDate:

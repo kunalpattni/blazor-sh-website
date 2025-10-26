@@ -4,8 +4,7 @@ namespace BlazorShWebsite.Client.Services.Mileage;
 
 public class MileageStateManager(ILogger<MileageStateManager> logger)
 {
-    private MileageState _clientMileageState;
-    private MileageState _serverMileageState;
+    public MileageState State { get; set; }
     
     public MileageStateManager GetOrCreate(string? mileageStateString)
     {
@@ -13,7 +12,7 @@ public class MileageStateManager(ILogger<MileageStateManager> logger)
         {
             try
             {
-                _clientMileageState = JsonSerializer.Deserialize<MileageState>(mileageStateString)!;
+                State = JsonSerializer.Deserialize<MileageState>(mileageStateString)!;
             }
             catch (Exception ex)
             {
@@ -21,7 +20,7 @@ public class MileageStateManager(ILogger<MileageStateManager> logger)
             }
 
         }
-        _clientMileageState = new MileageState
+        State = new MileageState
         {
             LastModified = DateTime.UtcNow,
             Version = 0,
