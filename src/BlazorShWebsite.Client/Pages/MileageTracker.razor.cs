@@ -1,4 +1,7 @@
+using System.Diagnostics;
+using System.Text.Json;
 using BlazorShWebsite.Client.Js;
+using BlazorShWebsite.Client.Services;
 using BlazorShWebsite.Client.Services.Mileage;
 using Microsoft.AspNetCore.Components;
 
@@ -7,23 +10,39 @@ namespace BlazorShWebsite.Client.Pages;
 public partial class MileageTracker
 {
     [Inject] LocalStorage LocalStorage { get; set; }
-    [Inject] MileageStateManager MileageStateManager { get; set; }
-    [Inject] PersistentComponentState ApplicationState { get; set; }
+    [Inject] private ILogger<MileageTracker> Logger { get; set; }
+
+    private MileageState _state = new();
     
     private Dictionary<MileageInputId, MileageInput> _pageInputs = new()
     {
         {MileageInputId.InitialMileage, new()},
         {MileageInputId.ContractedMiles, new()}
     };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await _state.LoadFromServer("Kunal");
+    }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
             await LocalStorage.Initialise();
-            MileageStateManager = MileageStateManager.GetOrCreate(await LocalStorage.GetItem("mileage-data"));
-            await Task.Yield();
-            StateHasChanged();
+            
+            var localStorageIsState = _state.LoadFromLocalStorage(await LocalStorage.GetItem("mileage-data"));
+
+            if (localStorageIsState)
+            {
+                await LocalStorage.SetItem("mileage-data", JsonSerializer.Serialize(_state));
+            }
+            else
+            {
+                await Task.Yield();
+                StateHasChanged();
+            }
         }
     }
     
@@ -49,7 +68,7 @@ public partial class MileageTracker
     
     private void AddRow()
     {
-        MileageStateManager.State.Rows.Add(new());
+        _state.Rows.Add(new());
     }
 
     private void RecalculateChart(ChangeEventArgs args)
@@ -64,7 +83,7 @@ public partial class MileageTracker
     
     private void RecalculateRow(ChangeEventArgs args, int row, MileageRowInputId inputId)
     {
-        var mileageRow = MileageStateManager.State.Rows[row];
+        var mileageRow = _state.Rows[row];
         switch (inputId)
         {
             case MileageRowInputId.FillDate:

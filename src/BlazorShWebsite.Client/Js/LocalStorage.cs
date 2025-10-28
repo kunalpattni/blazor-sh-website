@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.JSInterop;
 
 namespace BlazorShWebsite.Client.Js;
@@ -42,15 +43,27 @@ public class LocalStorage(IJSRuntime? js, ILogger<LocalStorage> logger) : JsApi(
         return await _js!.InvokeAsync<string?>("eval", $"localStorage.getItem('{key}')");
     }
     
-    public async Task<bool> SetItem(string key, string value)
+    public async Task SetItem(string key, string value)
     {
-        if(!TryEnsureIJsRuntimeExists()) 
+        if(!TryEnsureIJsRuntimeExists())
         {
-            return false;
+            return;
         }
         
         await _js!.InvokeVoidAsync("eval", $"localStorage.setItem('{key}', '{value}')");
-        return true;
+    }
+    
+    public async Task SetItem<T>(string key, T value)
+    {
+        if(!TryEnsureIJsRuntimeExists())
+        {
+            return;
+        }
+
+        if (value is not null)
+        {
+            await _js!.InvokeVoidAsync("eval", $"localStorage.setItem('{key}', '{JsonSerializer.Serialize(value)}')");
+        }
     }
     
     public async Task<bool> RemoveItem(string key)

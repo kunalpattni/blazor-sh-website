@@ -30,6 +30,7 @@
             <label for="contracted-miles">Contracted miles</label>
             <input id="contracted-miles" type="number" @oninput="e => OnPageInputEventHandler(e, MileageInputId.InitialMileage)"/>
         </div>
+        <div class="value">Last modified @_state.LastModifiedString() ago</div>
     </div>
     <table>
         <tr>
@@ -46,7 +47,7 @@
             <th>
                 <div class="label">Cost per day</div></th>
         </tr>
-        @for (var i = 0; i < MileageStateManager.State.Rows.Count; i++)
+        @for (var i = 0; i < _state.Rows.Count; i++)
         {
             var rowId = i;
             <tr @key="rowId">
@@ -54,14 +55,10 @@
                 <td><input id="current-mileage" type="number" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.CurrentMileage)"/></td>
                 <td><input id="price-per-litre" type="number" step="0.01" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.PricePerLitre)"/></td>
                 <td><input id="total-price" type="number" step="0.01" @oninput="e => OnRowInputEventHandler(e, rowId, MileageRowInputId.TotalPrice)"/></td>
-                <td>
-                    <div class="value" id="litres-filled">@MileageStateManager.State..Rows[rowId].LitresFilledString()</div></td>
-                <td>
-                    <div class="value" id="cost-per-mile">@MileageStateManager.State..Rows[rowId].CostPerMileString(null)</div></td>
-                <td>
-                    <div class="value" id="days-since-last-filled">@MileageStateManager.State..Rows[rowId].DaysSinceLastFillString(null)</div></td>
-                <td>
-                    <div class="value" id="cost-per-day">@MileageStateManager.State..Rows[rowId].CostPerDayString(null)</div></td>
+                <td><div class="value" id="litres-filled">@_state.Rows[rowId].LitresFilledString()</div></td>
+                <td><div class="value" id="cost-per-mile">@_state.Rows[rowId].CostPerMileString(null)</div></td>
+                <td><div class="value" id="days-since-last-filled">@_state.Rows[rowId].DaysSinceLastFillString(null)</div></td>
+                <td><div class="value" id="cost-per-day">@_state.Rows[rowId].CostPerDayString(null)</div></td>
             </tr>
         }
     </table>

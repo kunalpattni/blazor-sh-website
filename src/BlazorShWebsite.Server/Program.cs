@@ -1,5 +1,6 @@
 using BlazorShWebsite.Client.Js;
 using BlazorShWebsite.Client.Js.Legacy;
+using BlazorShWebsite.Client.Services.Mileage;
 using BlazorShWebsite.Server.Components;
 using BlazorShWebsite.Server.Services;
 using SharedNotes = BlazorShWebsite.Shared.Notes;
@@ -17,6 +18,16 @@ builder.Services.AddSignalR();
 builder.Services.AddScoped<HubManager>();
 builder.Services.AddJsInteropLegacy();
 builder.Services.AddJsInterop();
+
+// var firestoreSettings = new FirestoreSettings();
+// builder.Configuration.GetRequiredSection(FirestoreSettings.SettingsName)
+//     .Bind(firestoreSettings);
+//
+// builder.Services.AddFirestoreDb(firestoreBuilder =>
+// {
+//     firestoreBuilder.EmulatorDetection = firestoreSettings.EmulatorDetection;
+//     firestoreBuilder.ProjectId = firestoreSettings.ProjectId;
+// });
 
 var app = builder.Build();
 

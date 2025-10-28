@@ -1,5 +1,6 @@
 using BlazorShWebsite.Client.Js;
 using BlazorShWebsite.Client.Js.Legacy;
+using BlazorShWebsite.Client.Services.Mileage;
 using BlazorShWebsite.Shared.Shared;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
